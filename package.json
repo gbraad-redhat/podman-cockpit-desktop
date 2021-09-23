@@ -1,0 +1,20 @@
+{
+  "name": "tray-electron-podman",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "electron .",
+    "release": "electron-packager . --overwrite --out=release",
+    "release:cross": "electron-packager . --overwrite --out=release --platform=darwin,linux,win32"
+  },
+  "author": "",
+  "license": "Apache",
+  "devDependencies": {
+    "electron": "^13.1.7",
+    "electron-packager": "^15.3.0"
+  },
+  "dependencies": {
+  }
+}
