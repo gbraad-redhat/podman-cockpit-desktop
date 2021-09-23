@@ -16,7 +16,6 @@ openCockpit = function() {
       show: true,
       backgroundColor: '#ffffff',
       webPreferences: {
-        webSecurity: false /* ouch*/
       }
     });
   childWindow.setMenuBarVisibility(false);
