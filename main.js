@@ -1,4 +1,4 @@
-const { app, Menu, Tray, BrowserWindow } = require('electron');
+const { app, Menu, Tray, BrowserWindow, session } = require('electron');
 const path = require('path');
 const host = "ncentre";
 
@@ -7,6 +7,14 @@ const delay = ms => new Promise(resolve => setTimeout(resolve, ms))
 let parentWindow = undefined
 
 const start = async function() {
+  const filter = {
+    urls: [`https://${host}:9090/*`]
+  }
+
+  session.defaultSession.webRequest.onBeforeSendHeaders(filter, (details, callback) => {
+    details.requestHeaders['Authorization'] = 'Bearer Y29yZQ=='
+    callback({ requestHeaders: details.requestHeaders })
+  });
 }
 
 openCockpit = function() {
