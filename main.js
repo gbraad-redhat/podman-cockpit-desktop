@@ -1,6 +1,6 @@
 const { app, Menu, Tray, BrowserWindow, session } = require('electron');
 const path = require('path');
-const host = "ncentre";
+const host = "10.0.21.230";
 
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms))
 
@@ -8,7 +8,7 @@ let parentWindow = undefined
 
 const start = async function() {
   const filter = {
-    urls: [`https://${host}:9090/*`]
+    urls: [`http://${host}:9090/*`]
   }
 
   session.defaultSession.webRequest.onBeforeSendHeaders(filter, (details, callback) => {
@@ -21,13 +21,20 @@ openCockpit = function() {
   // open with 'ready-to-show'
   const childWindow = new BrowserWindow(
     {
-      show: true,
+      show: false,
       backgroundColor: '#ffffff',
       webPreferences: {
       }
     });
   childWindow.setMenuBarVisibility(false);
-  childWindow.loadURL(`https://${host}:9090/cockpit/@localhost/podman/index.html#`)
+  console.log("open");
+  var url = `http://${host}:9090/cockpit/@localhost/podman/index.html`;
+  console.log(url);
+  childWindow.loadURL(url)
+
+  childWindow.webContents.on('did-finish-load', function() {
+    childWindow.show();
+  });
 }
 
 createTrayMenu = function() {
@@ -63,8 +70,7 @@ app.whenReady().then(() => {
 });
 
 app.on('certificate-error', (event, webContents, url, error, certificate, callback) => {
-  if (url.startsWith('https://${host}:9090/')) {
-
+  if (url.startsWith(`https://${host}:9090/`)) {
     event.preventDefault()
     callback(true)
   } else {
